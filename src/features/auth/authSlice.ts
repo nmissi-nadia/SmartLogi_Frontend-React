@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
+import { parseRoles } from '../../utils/authUtils';
 
 interface User {
     username: string;
@@ -20,9 +21,8 @@ let initialUser = null;
 if (token) {
     try {
         const decoded: any = jwtDecode(token);
-        // Spring Boot usually puts roles in 'authorities' or 'roles'
-        // We'll check both
-        const roles = decoded.authorities || decoded.roles || []; // Adjust based on actual token
+        // Use the helper here too
+        const roles = parseRoles(decoded);
         // 'sub' is standard for username
         if (decoded.sub) {
             initialUser = { username: decoded.sub, roles };
@@ -56,7 +56,8 @@ const authSlice = createSlice({
 
             try {
                 const decoded: any = jwtDecode(action.payload.token);
-                const roles = decoded.authorities || decoded.roles || [];
+                // Use the helper to ensure we always get string[]
+                const roles = parseRoles(decoded);
                 state.user = { username: decoded.sub, roles };
                 state.isAuthenticated = true;
                 state.error = null;

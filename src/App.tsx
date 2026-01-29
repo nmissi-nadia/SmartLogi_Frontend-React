@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { GestionnaireDashboard } from './features/dashboard/pages/GestionnaireDashboard';
+import { ColisPage } from './features/colis/pages/ColisPage';
+import { MainLayout } from './layouts/MainLayout';
 import { useAppSelector } from './hooks/redux';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -15,14 +17,17 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/dashboard"
+          path="/"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <MainLayout />
             </ProtectedRoute>
           }
-        />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        >
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="dashboard" element={<GestionnaireDashboard />} />
+          <Route path="colis" element={<ColisPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

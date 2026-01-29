@@ -31,7 +31,7 @@ export const LoginForm = () => {
         <div className="w-full max-w-sm glass-card">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gradient">Connexion</h1>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-100 to-primary-500 bg-clip-text text-transparent">Connexion</h1>
                     <p className="text-slate-400 mt-2 text-sm">Accédez à votre espace SmartLogi</p>
                 </div>
 
