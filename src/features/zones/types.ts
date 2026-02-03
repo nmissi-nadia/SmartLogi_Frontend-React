@@ -3,4 +3,5 @@ export interface Zone {
     nom: string;
     description: string;
     ville: string;
+    codePostal: string;
 }

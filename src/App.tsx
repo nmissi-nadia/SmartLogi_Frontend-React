@@ -7,6 +7,7 @@ import { CreateColisPage } from './features/colis/pages/CreateColisPage';
 import { ClientColisPage } from './features/colis/pages/ClientColisPage';
 import { LivreurPage } from './features/livreurs/pages/LivreurPage';
 import { ClientPage } from './features/clients/pages/ClientPage';
+import { ClientProfilePage } from './features/clients/pages/ClientProfilePage';
 import { ZonePage } from './features/zones/pages/ZonePage';
 import { MainLayout } from './layouts/MainLayout';
 import { RoleBasedRedirect } from './components/RoleBasedRedirect';
@@ -42,6 +43,7 @@ function App() {
           <Route path="client/dashboard" element={<ClientDashboard />} />
           <Route path="client/colis" element={<ClientColisPage />} />
           <Route path="client/colis/create" element={<CreateColisPage />} />
+          <Route path="client/profile" element={<ClientProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

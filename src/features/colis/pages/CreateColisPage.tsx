@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ColisRequestDTO, DestinataireDTO, ZoneDTO, ColisProduitDTO, ProduitDTO } from '../types';
+import type { Zone } from '../../zones/types';
 import ColisService from '../ColisService';
+import ZoneService from '../../zones/ZoneService';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { ArrowLeft, ArrowRight, Package, Send } from 'lucide-react';
@@ -10,6 +12,9 @@ export const CreateColisPage = () => {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [availableZones, setAvailableZones] = useState<Zone[]>([]);
+    const [useExistingZone, setUseExistingZone] = useState(false);
+    const [selectedZoneId, setSelectedZoneId] = useState('');
 
     // Form state
     const [description, setDescription] = useState('');
@@ -35,6 +40,32 @@ export const CreateColisPage = () => {
     const [produits, setProduits] = useState<ColisProduitDTO[]>([]);
     const [currentProduit, setCurrentProduit] = useState<ProduitDTO>({ nom: '', categorie: '' });
     const [currentQuantite, setCurrentQuantite] = useState(1);
+
+    useEffect(() => {
+        fetchZones();
+    }, []);
+
+    const fetchZones = async () => {
+        try {
+            const zones = await ZoneService.getAll();
+            setAvailableZones(zones);
+        } catch (error) {
+            console.error('Erreur chargement zones', error);
+        }
+    };
+
+    const handleZoneSelection = (zoneId: string) => {
+        setSelectedZoneId(zoneId);
+        const selectedZone = availableZones.find(z => z.id === zoneId);
+        if (selectedZone) {
+            setZone({
+                nom: selectedZone.nom,
+                ville: selectedZone.ville,
+                codePostal: selectedZone.codePostal,
+                description: selectedZone.description || ''
+            });
+        }
+    };
 
     const handleSubmit = async () => {
         setLoading(true);
@@ -222,37 +253,93 @@ export const CreateColisPage = () => {
                 {currentStep === 3 && (
                     <div className="space-y-6">
                         <h2 className="text-xl font-bold text-slate-900">Zone de Livraison (Optionnel)</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">Nom de la Zone</label>
-                                <Input
-                                    value={zone.nom}
-                                    onChange={(e) => setZone({ ...zone, nom: e.target.value })}
-                                    placeholder="Ex: Centre-ville"
+
+                        {/* Zone Selection Toggle */}
+                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg">
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    checked={!useExistingZone}
+                                    onChange={() => {
+                                        setUseExistingZone(false);
+                                        setSelectedZoneId('');
+                                        setZone({ nom: '', ville: '', codePostal: '', description: '' });
+                                    }}
+                                    className="w-4 h-4"
                                 />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">Ville</label>
-                                <Input
-                                    value={zone.ville}
-                                    onChange={(e) => setZone({ ...zone, ville: e.target.value })}
+                                <span className="text-sm font-medium text-slate-700">Créer nouvelle zone</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    checked={useExistingZone}
+                                    onChange={() => setUseExistingZone(true)}
+                                    className="w-4 h-4"
                                 />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">Code Postal</label>
-                                <Input
-                                    value={zone.codePostal}
-                                    onChange={(e) => setZone({ ...zone, codePostal: e.target.value })}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
-                                <Input
-                                    value={zone.description || ''}
-                                    onChange={(e) => setZone({ ...zone, description: e.target.value })}
-                                />
-                            </div>
+                                <span className="text-sm font-medium text-slate-700">Sélectionner zone existante</span>
+                            </label>
                         </div>
+
+                        {useExistingZone ? (
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Zone</label>
+                                <select
+                                    className="input-field"
+                                    value={selectedZoneId}
+                                    onChange={(e) => handleZoneSelection(e.target.value)}
+                                >
+                                    <option value="">Sélectionner une zone</option>
+                                    {availableZones.map((z) => (
+                                        <option key={z.id} value={z.id}>
+                                            {z.nom} - {z.ville} ({z.codePostal})
+                                        </option>
+                                    ))}
+                                </select>
+                                {selectedZoneId && (
+                                    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                        <p className="text-sm text-blue-900">
+                                            <strong>Zone sélectionnée:</strong> {zone.nom}
+                                        </p>
+                                        <p className="text-sm text-blue-700 mt-1">{zone.description}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Nom de la Zone</label>
+                                    <Input
+                                        value={zone.nom}
+                                        onChange={(e) => setZone({ ...zone, nom: e.target.value })}
+                                        placeholder="Ex: Centre-ville"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Ville</label>
+                                    <Input
+                                        value={zone.ville}
+                                        onChange={(e) => setZone({ ...zone, ville: e.target.value })}
+                                        placeholder="Ex: Casablanca"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Code Postal</label>
+                                    <Input
+                                        value={zone.codePostal}
+                                        onChange={(e) => setZone({ ...zone, codePostal: e.target.value })}
+                                        placeholder="Ex: 20000"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
+                                    <Input
+                                        value={zone.description || ''}
+                                        onChange={(e) => setZone({ ...zone, description: e.target.value })}
+                                        placeholder="Description de la zone"
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 

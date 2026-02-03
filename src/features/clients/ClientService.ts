@@ -7,6 +7,11 @@ const ClientService = {
         return response.data;
     },
 
+    getMyProfile: async (): Promise<ClientExpediteur> => {
+        const response = await api.get<ClientExpediteur>('/clients/me');
+        return response.data;
+    },
+
     delete: async (id: string): Promise<void> => {
         await api.delete(`/clients/${id}`);
     },

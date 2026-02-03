@@ -1,7 +1,7 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout } from '../features/auth/authSlice';
-import { LayoutDashboard, Package, Truck, Users, LogOut, Menu, X, Map } from 'lucide-react';
+import { LayoutDashboard, Package, Truck, Users, LogOut, Menu, X, Map, Send, User } from 'lucide-react';
 import { useState } from 'react';
 
 const SidebarLink = ({ to, icon: Icon, children }: any) => (
@@ -62,11 +62,16 @@ export const MainLayout = () => {
                     )}
 
                     {/* Client Links */}
-                    {user?.roles?.includes('ROLE_CLIENT') && (
+                    {user?.roles?.includes('ROLE_CLIENT_EXPEDITEUR') && (
                         <>
-                            <SidebarLink to="/client/dashboard" icon={LayoutDashboard}>Dashboard</SidebarLink>
-                            <SidebarLink to="/client/colis" icon={Package}>Mes Colis</SidebarLink>
-                            <SidebarLink to="/client/colis/create" icon={Package}>Nouveau Colis</SidebarLink>
+                            <SidebarLink to="/client/dashboard" icon={LayoutDashboard}>Tableau de Bord</SidebarLink>
+
+                            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6 px-2">Mes Colis</div>
+                            <SidebarLink to="/client/colis" icon={Package}>Liste des Colis</SidebarLink>
+                            <SidebarLink to="/client/colis/create" icon={Send}>Créer un Colis</SidebarLink>
+
+                            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 mt-6 px-2">Mon Compte</div>
+                            <SidebarLink to="/client/profile" icon={User}>Mon Profil</SidebarLink>
                         </>
                     )}
                 </nav>

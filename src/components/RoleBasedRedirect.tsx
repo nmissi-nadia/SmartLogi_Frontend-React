@@ -13,12 +13,12 @@ export const RoleBasedRedirect = () => {
     }
 
     // Check roles in priority order
-    if (user.roles.includes('ROLE_GESTIONNAIRE')) {
+    if (user.roles.includes('ROLE_GESTIONNAIRE_LOGISTIQUE')) {
         console.log('RoleBasedRedirect - GESTIONNAIRE detected, redirecting to /dashboard');
         return <Navigate to="/dashboard" replace />;
     }
 
-    if (user.roles.includes('ROLE_CLIENT')) {
+    if (user.roles.includes('ROLE_CLIENT_EXPEDITEUR')) {
         console.log('RoleBasedRedirect - CLIENT detected, redirecting to /client/dashboard');
         return <Navigate to="/client/dashboard" replace />;
     }

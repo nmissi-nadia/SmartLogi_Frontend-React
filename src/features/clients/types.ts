@@ -9,4 +9,6 @@ export interface ClientExpediteur {
     codePostal?: string;
     entreprise?: string;
     utilisateurId?: string; // If linked to a User
+    colisEnvoyes?: number;
+    dateCreation?: string;
 }
