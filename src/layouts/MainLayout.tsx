@@ -1,7 +1,7 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout } from '../features/auth/authSlice';
-import { LayoutDashboard, Package, Truck, Users, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Package, Truck, Users, LogOut, Menu, X, Map } from 'lucide-react';
 import { useState } from 'react';
 
 const SidebarLink = ({ to, icon: Icon, children }: any) => (
@@ -50,14 +50,23 @@ export const MainLayout = () => {
                 <nav className="flex-1 p-4 overflow-y-auto">
                     <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 px-2">Menu</div>
 
-                    <SidebarLink to="/dashboard" icon={LayoutDashboard}>Dashboard</SidebarLink>
-
-                    {/* Gestionnaire Only Links (Mock check) */}
-                    {(user?.roles?.includes('ROLE_GESTIONNAIRE') || true) && (
+                    {/* Gestionnaire Links */}
+                    {user?.roles?.includes('ROLE_GESTIONNAIRE') && (
                         <>
+                            <SidebarLink to="/dashboard" icon={LayoutDashboard}>Dashboard</SidebarLink>
                             <SidebarLink to="/colis" icon={Package}>Colis</SidebarLink>
                             <SidebarLink to="/livreurs" icon={Truck}>Livreurs</SidebarLink>
                             <SidebarLink to="/clients" icon={Users}>Clients</SidebarLink>
+                            <SidebarLink to="/zones" icon={Map}>Zones</SidebarLink>
+                        </>
+                    )}
+
+                    {/* Client Links */}
+                    {user?.roles?.includes('ROLE_CLIENT') && (
+                        <>
+                            <SidebarLink to="/client/dashboard" icon={LayoutDashboard}>Dashboard</SidebarLink>
+                            <SidebarLink to="/client/colis" icon={Package}>Mes Colis</SidebarLink>
+                            <SidebarLink to="/client/colis/create" icon={Package}>Nouveau Colis</SidebarLink>
                         </>
                     )}
                 </nav>

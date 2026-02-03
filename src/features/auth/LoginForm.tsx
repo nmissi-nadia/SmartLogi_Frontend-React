@@ -20,7 +20,8 @@ export const LoginForm = () => {
         try {
             const response = await AuthService.login({ username, password });
             dispatch(loginSuccess(response));
-            navigate('/dashboard');
+            // Redirect to root, RoleBasedRedirect will handle routing
+            navigate('/');
         } catch (err: any) {
             console.error(err);
             dispatch(loginFailure(err.response?.data?.message || 'Identifiants incorrects'));
