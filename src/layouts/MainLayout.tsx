@@ -74,6 +74,14 @@ export const MainLayout = () => {
                             <SidebarLink to="/client/profile" icon={User}>Mon Profil</SidebarLink>
                         </>
                     )}
+
+                    {/* Livreur Links */}
+                    {user?.roles?.includes('ROLE_LIVREUR') && (
+                        <>
+                            <SidebarLink to="/livreur/dashboard" icon={LayoutDashboard}>Tableau de Bord</SidebarLink>
+                            <SidebarLink to="/livreur/colis" icon={Package}>Mes Livraisons</SidebarLink>
+                        </>
+                    )}
                 </nav>
 
                 {/* Footer */}

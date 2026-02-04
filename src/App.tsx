@@ -2,13 +2,16 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { GestionnaireDashboard } from './features/dashboard/pages/GestionnaireDashboard';
 import { ClientDashboard } from './features/dashboard/pages/ClientDashboard';
+import { LivreurDashboard } from './features/dashboard/pages/LivreurDashboard';
 import { ColisPage } from './features/colis/pages/ColisPage';
 import { CreateColisPage } from './features/colis/pages/CreateColisPage';
 import { ClientColisPage } from './features/colis/pages/ClientColisPage';
+import { LivreurColisPage } from './features/colis/pages/LivreurColisPage';
 import { LivreurPage } from './features/livreurs/pages/LivreurPage';
 import { ClientPage } from './features/clients/pages/ClientPage';
 import { ClientProfilePage } from './features/clients/pages/ClientProfilePage';
 import { ZonePage } from './features/zones/pages/ZonePage';
+import { PublicTrackingPage } from './features/tracking/pages/PublicTrackingPage';
 import { MainLayout } from './layouts/MainLayout';
 import { RoleBasedRedirect } from './components/RoleBasedRedirect';
 import { useAppSelector } from './hooks/redux';
@@ -23,6 +26,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
+        <Route path="/track" element={<PublicTrackingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"
@@ -44,6 +49,10 @@ function App() {
           <Route path="client/colis" element={<ClientColisPage />} />
           <Route path="client/colis/create" element={<CreateColisPage />} />
           <Route path="client/profile" element={<ClientProfilePage />} />
+
+          {/* Livreur Routes */}
+          <Route path="livreur/dashboard" element={<LivreurDashboard />} />
+          <Route path="livreur/colis" element={<LivreurColisPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
