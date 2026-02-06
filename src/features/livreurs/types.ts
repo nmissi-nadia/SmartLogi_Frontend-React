@@ -5,6 +5,7 @@ export interface Livreur {
     email: string;
     telephone: string;
     vehicule?: string;
-    zoneId?: string;
     disponible: boolean;
+    zoneId?: string;
+    userId?: string;
 }

@@ -1,26 +1,38 @@
 import type { InputHTMLAttributes } from 'react';
-import type { LucideIcon } from 'lucide-react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    icon?: LucideIcon;
+    error?: boolean;
+    success?: boolean;
     label?: string;
-    error?: string;
+    helperText?: string;
 }
 
-export const Input = ({ icon: Icon, label, error, className = '', ...props }: InputProps) => {
+export const Input = ({
+    error,
+    success,
+    label,
+    helperText,
+    className = '',
+    ...props
+}: InputProps) => {
+    const inputClasses = `input-field ${error ? 'input-error' : ''} ${success ? 'input-success' : ''} ${className}`;
+
     return (
-        <div className="flex flex-col gap-1.5 w-full">
-            {label && <label className="text-sm font-medium text-slate-300 ml-1">{label}</label>}
-            <div className="relative flex items-center">
-                {Icon && <Icon className="absolute left-3 text-slate-400 w-5 h-5" />}
-                <input
-                    className={`w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 px-4 ${Icon ? 'pl-10' : ''}
-          text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all
-          ${error ? 'border-red-500 focus:ring-red-500' : ''} ${className}`}
-                    {...props}
-                />
-            </div>
-            {error && <span className="text-xs text-red-400 ml-1">{error}</span>}
+        <div className="w-full">
+            {label && (
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {label}
+                </label>
+            )}
+            <input
+                className={inputClasses}
+                {...props}
+            />
+            {helperText && (
+                <p className={`mt-1.5 text-sm ${error ? 'text-danger-600' : success ? 'text-success-600' : 'text-slate-500'}`}>
+                    {helperText}
+                </p>
+            )}
         </div>
     );
 };

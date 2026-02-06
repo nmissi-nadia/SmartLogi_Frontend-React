@@ -5,6 +5,7 @@ export interface TrackingInfo {
     priorite: string;
     villeDestination: string;
     poids: number;
+    destinataireId?: string;
     destinataireNom?: string;
     destinatairePrenom?: string;
     historique?: Array<{

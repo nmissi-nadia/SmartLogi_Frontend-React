@@ -3,7 +3,7 @@ import { type ClientExpediteur } from '../types';
 import ClientService from '../ClientService';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
-import { RefreshCw, Search, Trash2, Edit2, Plus, Users, Building, MapPin } from 'lucide-react';
+import { RefreshCw, Search, Trash2, Edit2, Plus, Users } from 'lucide-react';
 
 export const ClientPage = () => {
     const [clients, setClients] = useState<ClientExpediteur[]>([]);
@@ -58,14 +58,13 @@ export const ClientPage = () => {
     };
 
     const openModal = (client?: ClientExpediteur) => {
-        setEditingClient(client || { nom: '', prenom: '', email: '', telephone: '', adresse: '', ville: '' });
+        setEditingClient(client || { nom: '', prenom: '', email: '', telephone: '', adresse: '' });
         setIsModalOpen(true);
     };
 
     const filtered = clients.filter(c =>
         c.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.entreprise?.toLowerCase().includes(searchTerm.toLowerCase())
+        c.prenom.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -102,7 +101,7 @@ export const ClientPage = () => {
                         <tr className="border-b border-slate-100 bg-slate-50/50">
                             <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Client</th>
                             <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Contact</th>
-                            <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Localisation</th>
+                            <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Adresse</th>
                             <th className="p-4 font-semibold text-slate-500 uppercase text-xs text-right">Actions</th>
                         </tr>
                     </thead>
@@ -116,11 +115,7 @@ export const ClientPage = () => {
                                         </div>
                                         <div>
                                             <div className="font-medium text-slate-900">{c.prenom} {c.nom}</div>
-                                            {c.entreprise && (
-                                                <div className="flex items-center gap-1 text-xs text-slate-500">
-                                                    <Building size={10} /> {c.entreprise}
-                                                </div>
-                                            )}
+                                            <div className="text-xs text-slate-400">ID: {c.id.substring(0, 8)}...</div>
                                         </div>
                                     </div>
                                 </td>
@@ -129,11 +124,7 @@ export const ClientPage = () => {
                                     <div className="text-xs text-slate-400">{c.telephone}</div>
                                 </td>
                                 <td className="p-4 text-slate-600">
-                                    <div className="flex items-center gap-1 text-sm">
-                                        <MapPin size={14} className="text-slate-400" />
-                                        {c.ville}
-                                    </div>
-                                    <div className="text-xs text-slate-400 pl-5">{c.adresse}</div>
+                                    <div className="text-sm">{c.adresse}</div>
                                 </td>
                                 <td className="p-4 text-right space-x-2">
                                     <button onClick={() => openModal(c)} className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors">
@@ -173,13 +164,6 @@ export const ClientPage = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-500">Entreprise</label>
-                                <Input
-                                    value={editingClient.entreprise || ''}
-                                    onChange={e => setEditingClient({ ...editingClient, entreprise: e.target.value })}
-                                />
-                            </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="text-xs font-medium text-slate-500">Email</label>
@@ -206,23 +190,6 @@ export const ClientPage = () => {
                                     value={editingClient.adresse}
                                     onChange={e => setEditingClient({ ...editingClient, adresse: e.target.value })}
                                 />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="text-xs font-medium text-slate-500">Ville</label>
-                                    <Input
-                                        required
-                                        value={editingClient.ville}
-                                        onChange={e => setEditingClient({ ...editingClient, ville: e.target.value })}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-xs font-medium text-slate-500">Code Postal</label>
-                                    <Input
-                                        value={editingClient.codePostal || ''}
-                                        onChange={e => setEditingClient({ ...editingClient, codePostal: e.target.value })}
-                                    />
-                                </div>
                             </div>
 
                             <div className="flex justify-end gap-3 mt-6">

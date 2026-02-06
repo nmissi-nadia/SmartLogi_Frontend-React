@@ -7,6 +7,7 @@ import ZoneService from '../../zones/ZoneService';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { ArrowLeft, ArrowRight, Package, Send } from 'lucide-react';
+import showToast from '../../../utils/toast';
 
 export const CreateColisPage = () => {
     const navigate = useNavigate();
@@ -32,9 +33,7 @@ export const CreateColisPage = () => {
 
     const [zone, setZone] = useState<ZoneDTO>({
         nom: '',
-        ville: '',
-        codePostal: '',
-        description: ''
+        codePostal: ''
     });
 
     const [produits, setProduits] = useState<ColisProduitDTO[]>([]);
@@ -60,9 +59,7 @@ export const CreateColisPage = () => {
         if (selectedZone) {
             setZone({
                 nom: selectedZone.nom,
-                ville: selectedZone.ville,
-                codePostal: selectedZone.codePostal,
-                description: selectedZone.description || ''
+                codePostal: selectedZone.codePostal
             });
         }
     };
@@ -81,10 +78,11 @@ export const CreateColisPage = () => {
             };
 
             await ColisService.createColisRequest(request);
+            showToast.success('Colis créé avec succès !');
             navigate('/client/colis');
         } catch (error) {
             console.error('Erreur création colis', error);
-            alert('Erreur lors de la création du colis');
+            showToast.error('Erreur lors de la création du colis');
         } finally {
             setLoading(false);
         }
@@ -263,7 +261,7 @@ export const CreateColisPage = () => {
                                     onChange={() => {
                                         setUseExistingZone(false);
                                         setSelectedZoneId('');
-                                        setZone({ nom: '', ville: '', codePostal: '', description: '' });
+                                        setZone({ nom: '', codePostal: '' });
                                     }}
                                     className="w-4 h-4"
                                 />
@@ -291,16 +289,15 @@ export const CreateColisPage = () => {
                                     <option value="">Sélectionner une zone</option>
                                     {availableZones.map((z) => (
                                         <option key={z.id} value={z.id}>
-                                            {z.nom} - {z.ville} ({z.codePostal})
+                                            {z.nom} ({z.codePostal})
                                         </option>
                                     ))}
                                 </select>
                                 {selectedZoneId && (
                                     <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
                                         <p className="text-sm text-blue-900">
-                                            <strong>Zone sélectionnée:</strong> {zone.nom}
+                                            <strong>Zone sélectionnée:</strong> {zone.nom} ({zone.codePostal})
                                         </p>
-                                        <p className="text-sm text-blue-700 mt-1">{zone.description}</p>
                                     </div>
                                 )}
                             </div>
@@ -315,27 +312,11 @@ export const CreateColisPage = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">Ville</label>
-                                    <Input
-                                        value={zone.ville}
-                                        onChange={(e) => setZone({ ...zone, ville: e.target.value })}
-                                        placeholder="Ex: Casablanca"
-                                    />
-                                </div>
-                                <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-2">Code Postal</label>
                                     <Input
                                         value={zone.codePostal}
                                         onChange={(e) => setZone({ ...zone, codePostal: e.target.value })}
                                         placeholder="Ex: 20000"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
-                                    <Input
-                                        value={zone.description || ''}
-                                        onChange={(e) => setZone({ ...zone, description: e.target.value })}
-                                        placeholder="Description de la zone"
                                     />
                                 </div>
                             </div>

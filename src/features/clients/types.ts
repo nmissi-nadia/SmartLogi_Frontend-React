@@ -5,10 +5,5 @@ export interface ClientExpediteur {
     email: string;
     telephone: string;
     adresse: string;
-    ville: string;
-    codePostal?: string;
-    entreprise?: string;
-    utilisateurId?: string; // If linked to a User
-    colisEnvoyes?: number;
-    dateCreation?: string;
+    userId?: string;
 }

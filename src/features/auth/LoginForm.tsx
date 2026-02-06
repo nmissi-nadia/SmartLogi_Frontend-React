@@ -4,7 +4,7 @@ import { loginStart, loginSuccess, loginFailure } from './authSlice';
 import AuthService from './AuthService';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import { User, Lock, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const LoginForm = () => {
@@ -40,7 +40,6 @@ export const LoginForm = () => {
 
                 <div className="space-y-4">
                     <Input
-                        icon={User}
                         placeholder="Nom d'utilisateur"
                         value={username}
                         onChange={e => setUsername(e.target.value)}
@@ -48,7 +47,6 @@ export const LoginForm = () => {
                         label="Utilisateur"
                     />
                     <Input
-                        icon={Lock}
                         type="password"
                         placeholder="Mot de passe"
                         value={password}

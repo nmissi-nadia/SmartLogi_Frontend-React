@@ -5,6 +5,7 @@ import LivreurService from '../../livreurs/LivreurService';
 import type { Colis } from '../../colis/types';
 import { Package, Clock, CheckCircle, MapPin, AlertCircle } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
+import showToast from '../../../utils/toast';
 
 export const LivreurDashboard = () => {
     const navigate = useNavigate();
@@ -36,10 +37,10 @@ export const LivreurDashboard = () => {
             await LivreurService.updateColisStatus(colisId, 'LIVRE');
             // Refresh data
             await fetchData();
-            alert('Colis marqué comme livré !');
+            showToast.success('Colis marqué comme livré !');
         } catch (error) {
             console.error('Erreur mise à jour statut', error);
-            alert('Erreur lors de la mise à jour');
+            showToast.error('Erreur lors de la mise à jour');
         } finally {
             setUpdating(null);
         }

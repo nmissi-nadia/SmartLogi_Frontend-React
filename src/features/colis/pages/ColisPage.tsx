@@ -6,6 +6,7 @@ import LivreurService from '../../livreurs/LivreurService';
 import { Button } from '../../../components/ui/Button';
 import { RefreshCw, Search, Truck, MapPin, Package, Eye, X as XIcon, Calendar, Clock, Filter, Edit } from 'lucide-react';
 import { Input } from '../../../components/ui/Input';
+import { Skeleton } from '../../../components/ui/Skeleton';
 
 export const ColisPage = () => {
     const [colisList, setColisList] = useState<Colis[]>([]);
@@ -219,7 +220,26 @@ export const ColisPage = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            {filteredColis.length === 0 ? (
+                            {loading ? (
+                                Array.from({ length: 5 }).map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-3">
+                                                <Skeleton className="w-10 h-10 rounded-lg" />
+                                                <div className="flex flex-col gap-1">
+                                                    <Skeleton className="h-4 w-24" />
+                                                    <Skeleton className="h-3 w-32" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-4"><Skeleton className="h-4 w-32" /></td>
+                                        <td className="p-4"><Skeleton className="h-6 w-16 rounded" /></td>
+                                        <td className="p-4"><Skeleton className="h-6 w-24 rounded-full" /></td>
+                                        <td className="p-4"><Skeleton className="h-4 w-28" /></td>
+                                        <td className="p-4"><Skeleton className="h-8 w-20 rounded" /></td>
+                                    </tr>
+                                ))
+                            ) : filteredColis.length === 0 ? (
                                 <tr>
                                     <td colSpan={6} className="p-8 text-center text-slate-400">
                                         Aucun colis trouvé.

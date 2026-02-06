@@ -4,6 +4,7 @@ import ClientService from '../ClientService';
 import type { ClientExpediteur } from '../types';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
+import showToast from '../../../utils/toast';
 import { User, Mail, Phone, MapPin, ArrowLeft, Save } from 'lucide-react';
 
 export const ClientProfilePage = () => {
@@ -51,10 +52,10 @@ export const ClientProfilePage = () => {
             await ClientService.update(profile.id, formData);
             await fetchProfile();
             setEditing(false);
-            alert('Profil mis à jour avec succès');
+            showToast.success('Profil mis à jour avec succès');
         } catch (error) {
             console.error('Erreur mise à jour profil', error);
-            alert('Erreur lors de la mise à jour du profil');
+            showToast.error('Erreur lors de la mise à jour du profil');
         } finally {
             setSaving(false);
         }
@@ -206,23 +207,6 @@ export const ClientProfilePage = () => {
                             ) : (
                                 <div className="p-3 bg-slate-50 rounded-lg text-slate-900">{profile.adresse || '-'}</div>
                             )}
-                        </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="pt-6 border-t border-slate-100">
-                        <h3 className="text-lg font-bold text-slate-900 mb-4">Statistiques</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-blue-50 rounded-lg">
-                                <div className="text-sm text-blue-600 font-medium">Colis envoyés</div>
-                                <div className="text-2xl font-bold text-blue-900">{profile.colisEnvoyes || 0}</div>
-                            </div>
-                            <div className="p-4 bg-green-50 rounded-lg">
-                                <div className="text-sm text-green-600 font-medium">Membre depuis</div>
-                                <div className="text-lg font-bold text-green-900">
-                                    {profile.dateCreation ? new Date(profile.dateCreation).toLocaleDateString('fr-FR') : '-'}
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

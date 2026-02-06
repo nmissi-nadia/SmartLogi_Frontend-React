@@ -1,6 +1,8 @@
 import { Package, Truck, CheckCircle, AlertCircle } from 'lucide-react';
+import { Skeleton } from '../../../components/ui/Skeleton';
 
 interface StatsProps {
+    isLoading?: boolean;
     stats: {
         totalColis?: number;
         enCours?: number;
@@ -12,7 +14,7 @@ interface StatsProps {
     };
 }
 
-export const DashboardStatsGrid = ({ stats }: StatsProps) => {
+export const DashboardStatsGrid = ({ stats, isLoading }: StatsProps) => {
     const cards = [
         {
             label: 'Total Colis',
@@ -57,7 +59,11 @@ export const DashboardStatsGrid = ({ stats }: StatsProps) => {
                             <card.icon size={24} />
                         </div>
                         <span className="text-slate-500 text-sm font-medium uppercase tracking-wider">{card.label}</span>
-                        <span className="text-3xl font-bold text-slate-900 mt-1">{card.value}</span>
+                        {isLoading ? (
+                            <Skeleton className="h-9 w-16 mt-1" />
+                        ) : (
+                            <span className="text-3xl font-bold text-slate-900 mt-1">{card.value}</span>
+                        )}
 
                         <div className={`absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-gradient-to-br ${card.gradient} blur-2xl`} />
                     </div>

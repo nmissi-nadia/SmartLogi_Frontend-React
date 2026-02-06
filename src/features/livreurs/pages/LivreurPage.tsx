@@ -230,7 +230,7 @@ export const LivreurPage = () => {
                                     <option value="">Aucune zone assignée</option>
                                     {zones.map(z => (
                                         <option key={z.id} value={z.id}>
-                                            {z.nom} ({z.ville})
+                                            {z.nom} ({z.codePostal})
                                         </option>
                                     ))}
                                 </select>

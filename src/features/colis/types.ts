@@ -52,6 +52,7 @@ export interface ProduitDTO {
     id?: string;
     nom: string;
     categorie: string;
+    poids?: number;
     prix?: number;
 }
 
@@ -63,9 +64,7 @@ export interface ColisProduitDTO {
 export interface ZoneDTO {
     id?: string;
     nom: string;
-    ville: string;
     codePostal: string;
-    description?: string;
 }
 
 export interface ColisRequestDTO {

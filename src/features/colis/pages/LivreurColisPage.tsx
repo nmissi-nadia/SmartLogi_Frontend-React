@@ -5,6 +5,7 @@ import type { Colis } from '../../colis/types';
 import { Package, MapPin, Filter, Search } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
+import showToast from '../../../utils/toast';
 
 export const LivreurColisPage = () => {
     const navigate = useNavigate();
@@ -35,10 +36,10 @@ export const LivreurColisPage = () => {
         try {
             await LivreurService.updateColisStatus(colisId, 'LIVRE');
             await fetchColis();
-            alert('Colis marqué comme livré !');
+            showToast.success('Colis marqué comme livré !');
         } catch (error) {
             console.error('Erreur mise à jour', error);
-            alert('Erreur lors de la mise à jour');
+            showToast.error('Erreur lors de la mise à jour');
         } finally {
             setUpdating(null);
         }
@@ -126,8 +127,8 @@ export const LivreurColisPage = () => {
                         <button
                             onClick={() => setSelectedStatus('')}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedStatus === ''
-                                    ? 'bg-primary-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                         >
                             Tous
@@ -135,8 +136,8 @@ export const LivreurColisPage = () => {
                         <button
                             onClick={() => setSelectedStatus('CREE')}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedStatus === 'CREE'
-                                    ? 'bg-primary-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                         >
                             Créés
@@ -144,8 +145,8 @@ export const LivreurColisPage = () => {
                         <button
                             onClick={() => setSelectedStatus('EN_TRANSIT')}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedStatus === 'EN_TRANSIT'
-                                    ? 'bg-primary-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                         >
                             En Transit
@@ -153,8 +154,8 @@ export const LivreurColisPage = () => {
                         <button
                             onClick={() => setSelectedStatus('LIVRE')}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedStatus === 'LIVRE'
-                                    ? 'bg-primary-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                         >
                             Livrés

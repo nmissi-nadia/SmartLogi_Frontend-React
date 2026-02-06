@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartlogi-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://host.docker.internal:8084/api}
+    restart: unless-stopped
+    extra_hosts:
+      # Permet d'accéder au localhost de la machine hôte depuis le conteneur
+      - "host.docker.internal:host-gateway"
+

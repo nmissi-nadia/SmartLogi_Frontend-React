@@ -8,11 +8,7 @@ const SidebarLink = ({ to, icon: Icon, children }: any) => (
     <NavLink
         to={to}
         className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium mb-1
-      ${isActive
-                ? 'bg-primary-50 text-primary-600 border border-primary-100 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-            }`
+            `nav-link ${isActive ? 'nav-link-active' : 'nav-link-inactive'}`
         }
     >
         <Icon size={20} />
@@ -35,15 +31,15 @@ export const MainLayout = () => {
         <div className="min-h-screen flex bg-slate-50 text-slate-900 overflow-hidden">
             {/* Sidebar */}
             <aside
-                className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 flex flex-col transition-transform duration-300
+                className={`fixed lg:static inset-y-0 left-0 z-50 w-64 glass-nav flex flex-col transition-transform duration-300
                 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
                 {/* Logo */}
-                <div className="p-6 flex items-center gap-3 border-b border-slate-100">
-                    <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center shadow-lg shadow-primary-600/20">
-                        <span className="text-white font-bold">S</span>
+                <div className="p-6 flex items-center gap-3 border-b border-primary-800/30">
+                    <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center shadow-lg shadow-accent-600/40">
+                        <span className="text-white font-bold text-lg">S</span>
                     </div>
-                    <span className="text-xl font-bold tracking-tight text-slate-900">SmartLogi</span>
+                    <span className="text-xl font-bold tracking-tight text-white">SmartLogi</span>
                 </div>
 
                 {/* Nav */}
@@ -85,21 +81,21 @@ export const MainLayout = () => {
                 </nav>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-slate-100">
+                <div className="p-4 border-t border-primary-800/30">
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                        className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-slate-300 hover:text-white hover:bg-danger-600/90 transition-all duration-200"
                     >
                         <LogOut size={20} />
                         Déconnexion
                     </button>
                     <div className="mt-4 px-2 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center text-sm font-bold text-white shadow-md">
                             {user?.username?.substring(0, 2).toUpperCase()}
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-sm font-medium text-slate-900">{user?.username}</span>
-                            <span className="text-xs text-slate-500 capitalize">
+                            <span className="text-sm font-medium text-white">{user?.username}</span>
+                            <span className="text-xs text-slate-400 capitalize">
                                 {user?.roles?.[0]?.replace('ROLE_', '').toLowerCase()}
                             </span>
                         </div>

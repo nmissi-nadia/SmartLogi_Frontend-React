@@ -105,7 +105,7 @@ export const GestionnaireDashboard = () => {
                             >
                                 <option value="">Toutes les zones</option>
                                 {zones.map(z => (
-                                    <option key={z.id} value={z.id}>{z.nom} ({z.ville})</option>
+                                    <option key={z.id} value={z.id}>{z.nom} ({z.codePostal})</option>
                                 ))}
                             </select>
                         </div>
@@ -132,7 +132,7 @@ export const GestionnaireDashboard = () => {
             )}
 
             {/* Stats Grid */}
-            <DashboardStatsGrid stats={stats} />
+            <DashboardStatsGrid stats={stats} isLoading={loading} />
 
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

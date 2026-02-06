@@ -58,13 +58,13 @@ export const ZonePage = () => {
     };
 
     const openModal = (zone?: Zone) => {
-        setEditingZone(zone || { nom: '', description: '', ville: '' });
+        setEditingZone(zone || { nom: '', codePostal: '' });
         setIsModalOpen(true);
     };
 
     const filtered = zones.filter(z =>
         z.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        z.ville.toLowerCase().includes(searchTerm.toLowerCase())
+        z.codePostal.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -100,14 +100,13 @@ export const ZonePage = () => {
                     <thead>
                         <tr className="border-b border-slate-100 bg-slate-50/50">
                             <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Nom</th>
-                            <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Ville</th>
-                            <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Description</th>
+                            <th className="p-4 font-semibold text-slate-500 uppercase text-xs">Code Postal</th>
                             <th className="p-4 font-semibold text-slate-500 uppercase text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                         {filtered.length === 0 ? (
-                            <tr><td colSpan={4} className="p-8 text-center text-slate-400">Aucune zone définie.</td></tr>
+                            <tr><td colSpan={3} className="p-8 text-center text-slate-400">Aucune zone définie.</td></tr>
                         ) : (
                             filtered.map(z => (
                                 <tr key={z.id} className="hover:bg-slate-50/80">
@@ -122,10 +121,9 @@ export const ZonePage = () => {
                                     <td className="p-4 text-slate-600">
                                         <div className="flex items-center gap-1">
                                             <MapPin size={14} className="text-slate-400" />
-                                            {z.ville}
+                                            {z.codePostal}
                                         </div>
                                     </td>
-                                    <td className="p-4 text-slate-500 text-sm">{z.description}</td>
                                     <td className="p-4 text-right space-x-2">
                                         <button onClick={() => openModal(z)} className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors">
                                             <Edit2 size={18} />
@@ -157,21 +155,12 @@ export const ZonePage = () => {
                                 />
                             </div>
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-500">Ville principale</label>
+                                <label className="text-xs font-medium text-slate-500">Code Postal</label>
                                 <Input
                                     required
-                                    value={editingZone.ville}
-                                    onChange={e => setEditingZone({ ...editingZone, ville: e.target.value })}
-                                    placeholder="Ex: Paris"
-                                />
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-500">Description</label>
-                                <textarea
-                                    className="input-field min-h-[80px]"
-                                    value={editingZone.description || ''}
-                                    onChange={e => setEditingZone({ ...editingZone, description: e.target.value })}
-                                    placeholder="Description de la couverture..."
+                                    value={editingZone.codePostal || ''}
+                                    onChange={e => setEditingZone({ ...editingZone, codePostal: e.target.value })}
+                                    placeholder="Ex: 20000"
                                 />
                             </div>
 
