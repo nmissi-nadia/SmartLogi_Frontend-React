@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     error?: boolean;
@@ -7,14 +7,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     helperText?: string;
 }
 
-export const Input = ({
+export const Input = forwardRef<HTMLInputElement, InputProps>(({
     error,
     success,
     label,
     helperText,
     className = '',
     ...props
-}: InputProps) => {
+}, ref) => {
     const inputClasses = `input-field ${error ? 'input-error' : ''} ${success ? 'input-success' : ''} ${className}`;
 
     return (
@@ -25,6 +25,7 @@ export const Input = ({
                 </label>
             )}
             <input
+                ref={ref}
                 className={inputClasses}
                 {...props}
             />
@@ -35,4 +36,6 @@ export const Input = ({
             )}
         </div>
     );
-};
+});
+
+Input.displayName = 'Input';

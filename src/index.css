@@ -378,6 +378,28 @@
     }
   }
 
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes cascade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
@@ -393,6 +415,36 @@
   .animate-pulse-slow {
     animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-cascade-1 {
+    animation: cascade-in 0.5s ease-out 0.1s both;
+  }
+
+  .animate-cascade-2 {
+    animation: cascade-in 0.5s ease-out 0.2s both;
+  }
+
+  .animate-cascade-3 {
+    animation: cascade-in 0.5s ease-out 0.3s both;
+  }
+
+  .animate-cascade-4 {
+    animation: cascade-in 0.5s ease-out 0.4s both;
+  }
+
+  /* Input glow effect */
+  .input-glow {
+    @apply focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 focus:shadow-lg focus:shadow-primary-500/10;
+  }
+
 
   /* ============================================
      GRADIENT TEXT

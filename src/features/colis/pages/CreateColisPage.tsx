@@ -72,6 +72,13 @@ export const CreateColisPage = () => {
                 poids: parseFloat(poids),
                 priorite,
                 villeDestination,
+                clientExpediteur: {
+                    nom: '',
+                    prenom: '',
+                    email: '',
+                    telephone: '',
+                    adresse: ''
+                },
                 destinataire,
                 zone: zone.nom ? zone : undefined,
                 produits: produits.length > 0 ? produits : undefined

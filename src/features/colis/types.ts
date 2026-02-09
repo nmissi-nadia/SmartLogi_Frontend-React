@@ -1,3 +1,5 @@
+import type { ClientExpediteur } from '../clients/types';
+
 export const StatutColis = {
     CREE: 'CREE',
     COLLECTE: 'COLLECTE',
@@ -72,6 +74,7 @@ export interface ColisRequestDTO {
     poids: number;
     priorite: string;
     villeDestination: string;
+    clientExpediteur: Partial<ClientExpediteur>;
     destinataire: DestinataireDTO;
     zone?: ZoneDTO;
     produits?: ColisProduitDTO[];
